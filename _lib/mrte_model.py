@@ -1,7 +1,7 @@
 # This is Multi-reference timbre encoder
-
+from _lib.attentions import MultiHeadAttention
+#----------------
 import torch
-from attentions import MultiHeadAttention
 from torch import nn
 from torch.nn.utils import remove_weight_norm, weight_norm
 

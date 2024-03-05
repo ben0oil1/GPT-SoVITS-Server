@@ -1,14 +1,14 @@
 # import copy
-import math
 
-import attentions
-import commons
-import modules
-import torch
-from commons import get_padding, init_weights
-from mrte_model import MRTE
-from quantize import ResidualVectorQuantizer
+import _lib.attentions as attentions
+import _lib.commons as commons
+import _lib.modules  as     modules
+from _lib.commons import get_padding, init_weights
+from _lib.mrte_model import MRTE
+from _lib.quantize import ResidualVectorQuantizer
 #------------------
+import math
+import torch
 from torch import nn
 from torch.cuda.amp import autocast
 from torch.nn import AvgPool1d, Conv1d, Conv2d, ConvTranspose1d

@@ -5,13 +5,13 @@
 # LICENSE file in the root directory of this source tree.
 
 """Residual vector quantizer implementation."""
-
+from _lib.core_vq import ResidualVectorQuantization
+#--------------------------
 # import math
 import typing as tp
 from dataclasses import dataclass, field
 
-import torch
-from core_vq import ResidualVectorQuantization
+import torch 
 from torch import nn
 
 

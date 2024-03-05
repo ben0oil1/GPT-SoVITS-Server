@@ -16,11 +16,51 @@ from AR.models.t2s_lightning_module import Text2SemanticLightningModule
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from feature_extractor import cnhubert
-from mel_processing import spectrogram_torch
-from models import SynthesizerTrn
+from _lib.mel_processing import spectrogram_torch
+from _lib.models import SynthesizerTrn
 from transformers import AutoModelForMaskedLM, AutoTokenizer 
 from text import cleaned_text_to_sequence
 from text.cleaner import clean_text
+
+# -------pretrained_models和训练好的模型，丢在下面的位置----------------
+cnhubert_path = "E:/app/tts-ben/pretrained_models/chinese-hubert-base"
+bert_path = "E:/app/tts-ben/pretrained_models/chinese-roberta-wwm-ext-large" 
+# 从云端下载回来的训练好的内容
+sovits_path = 'E:/app/tts-ben/_models/svc/0128-0359_e12_s144.pth'
+gpt_path = 'E:/app/tts-ben/_models/gpt/0128-0359-e30.ckpt' 
+# 推理引用的音频文件地址和文本信息 
+default_refer_path =   r"E:\app\tts-ben\_models\000.wav"   
+default_refer_text =  "云南凤庆给您发货，一斤装四十九，两斤装九十五，三斤装一百二十九，规格越大价格越划算。" 
+# 语言，我个人把日语韩语乱七八糟的直接删除了，因为我用不上，大家需要的话自己做适配
+default_refer_language = 'zh' 
+# 使用cuda就是用英伟达的gpu，cpu就是用cpu
+device = 'cuda'  # cpu cuda
+is_half = False 
+# -----------------------
+
+# 如果要增加更多的参数选项，在这里设定
+parser = argparse.ArgumentParser(description="GPT-SoVITS-SERVER") 
+# parser.add_argument("-t", "--text", type=str, default='请输入文字，测试合成效果', help=f'.\runtime\python.exe .\api-ben2.py -t "输入要合成的文字"')
+# parser.add_argument("-f", "--huashu", type=str, default='', help=f'.\runtime\python.exe .\app.py -f ./huahsu.json')
+parser.add_argument("-drp", "--default_refer_path", type=str, default="", help="1/2")
+parser.add_argument("-drt", "--default_refer_text", type=str, default="", help="1/2")
+
+parser.add_argument("-p", "--port", type=int, default='8080', help="default: 9880")
+parser.add_argument("-a", "--bind_addr", type=str, default="127.0.0.1", help="default: 127.0.0.1")
+
+args = parser.parse_args()
+
+if args.default_refer_path and args.default_refer_text:
+    default_refer_path = args.default_refer_path
+    default_refer_text = args.default_refer_text
+
+cnhubert.cnhubert_base_path = cnhubert_path
+tokenizer = AutoTokenizer.from_pretrained(bert_path)
+bert_model = AutoModelForMaskedLM.from_pretrained(bert_path)
+if is_half:
+    bert_model = bert_model.half().to(device)
+else:
+    bert_model = bert_model.to(device)
 
 
 # https://github.com/RVC-Boss/GPT-SoVITS/blob/main/api.py
@@ -45,46 +85,6 @@ def load_audio(file, sr):
 def clean_path(path_str):
     path_str = path_str.replace('/', '\\')
     return path_str.strip(" ").strip('"').strip("\n").strip('"').strip(" ")
-
-cnhubert_path = "../pretrained_models/chinese-hubert-base"
-bert_path = "../pretrained_models/chinese-roberta-wwm-ext-large" 
-sovits_path = '../_models/svc/0128-0359_e12_s144.pth'
-gpt_path = '../_models/gpt/0128-0359-e30.ckpt' 
-default_refer_path =  r"E:\workspace\tk_vlc\_tmp\Record_2024-01-14-18-27-05_01.wav" #r"E:\app\tts-ben\_models\000.wav" #'../_models/000.wav'  
-default_refer_text = "台地茶出的就是金汤了，不耐泡，香气不足，而且它五六泡之后就要换茶叶了。咱们家古树滇红茶，出的是红汤，橙红透亮，杯挂金圈。"
-# "云南凤庆给您发货，一斤装四十九，两斤装九十五，三斤装一百二十九，规格越大价格越划算。" 
-default_refer_path =   r"E:\app\tts-ben\_models\000.wav" #'../_models/000.wav'  
-default_refer_text =  "云南凤庆给您发货，一斤装四十九，两斤装九十五，三斤装一百二十九，规格越大价格越划算。" 
-
-
-
-default_refer_language = 'zh' 
-device = 'cuda'  # cpu cuda
-is_half = False 
- 
-parser = argparse.ArgumentParser(description="命令行推理工具") 
-# parser.add_argument("-t", "--text", type=str, default='请输入文字，测试合成效果', help=f'.\runtime\python.exe .\api-ben2.py -t "输入要合成的文字"')
-# parser.add_argument("-f", "--huashu", type=str, default='', help=f'.\runtime\python.exe .\app.py -f ./huahsu.json')
-parser.add_argument("-drp", "--default_refer_path", type=str, default="", help="1/2")
-parser.add_argument("-drt", "--default_refer_text", type=str, default="", help="1/2")
-
-parser.add_argument("-p", "--port", type=int, default='8080', help="default: 9880")
-parser.add_argument("-a", "--bind_addr", type=str, default="127.0.0.1", help="default: 127.0.0.1")
-
-args = parser.parse_args()
-
-if args.default_refer_path and args.default_refer_text:
-    default_refer_path = args.default_refer_path
-    default_refer_text = args.default_refer_text
-
-cnhubert.cnhubert_base_path = cnhubert_path
-tokenizer = AutoTokenizer.from_pretrained(bert_path)
-bert_model = AutoModelForMaskedLM.from_pretrained(bert_path)
-if is_half:
-    bert_model = bert_model.half().to(device)
-else:
-    bert_model = bert_model.to(device)
-
 
 def get_bert_feature(text, word2ph):
     with torch.no_grad():

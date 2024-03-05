@@ -1,16 +1,18 @@
 import math
 
 # from module 
-import commons
+import _lib.commons as commons
+from _lib.commons import get_padding, init_weights
+from _lib.transforms import piecewise_rational_quadratic_transform
+#-------------------
 import numpy as np
 import torch
 import torch.distributions as D
-from commons import get_padding, init_weights
 from torch import nn
 from torch.nn import Conv1d
 from torch.nn import functional as F
 from torch.nn.utils import remove_weight_norm, weight_norm
-from transforms import piecewise_rational_quadratic_transform
+
 
 LRELU_SLOPE = 0.1
 

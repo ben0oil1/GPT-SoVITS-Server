@@ -1,9 +1,10 @@
 import math
 
 # from module 
-import commons
+import _lib.commons as commons
+from _lib.modules import LayerNorm
+#-------------------
 import torch
-from modules import LayerNorm
 from torch import nn
 from torch.nn import functional as F
 
