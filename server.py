@@ -15,7 +15,8 @@ import uvicorn
 from AR.models.t2s_lightning_module import Text2SemanticLightningModule
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
-from feature_extractor import cnhubert
+# from feature_extractor 
+import _lib.cnhubert as cnhubert
 from _lib.mel_processing import spectrogram_torch
 from _lib.models import SynthesizerTrn
 from transformers import AutoModelForMaskedLM, AutoTokenizer 
@@ -67,8 +68,8 @@ else:
 def load_audio(file, sr):
     try: 
         file = clean_path(file)  # 防止小白拷路径头尾带了空格和"和回车
-        print(file)
-        print( '~~~ os.path.exists(file)', os.path.exists(file) )
+        # print(file)
+        # print( '~~~ os.path.exists(file)', os.path.exists(file) )
         if os.path.exists(file) == False:
             raise RuntimeError(
                 "错误：You input a wrong audio path that does not exists, please fix it!"
@@ -329,4 +330,4 @@ async def tts_endpoint(command: str = None,text: str = None, ):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app ,   host='0.0.0.0', port='8080', workers=1)
+    uvicorn.run(app ,   host='0.0.0.0', port=8080, workers=1)
