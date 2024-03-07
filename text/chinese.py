@@ -7,7 +7,7 @@ from pypinyin import lazy_pinyin, Style
 
 import sys
 
-sys.path.append("/data/docker/liujing04/gpt-vits/gpt-vits-master")
+# sys.path.append("/data/docker/liujing04/gpt-vits/gpt-vits-master")
 
 from text.symbols import punctuation
 from text.tone_sandhi import ToneSandhi

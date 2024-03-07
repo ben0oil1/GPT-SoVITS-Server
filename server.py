@@ -23,18 +23,18 @@ from text import cleaned_text_to_sequence
 from text.cleaner import clean_text
 
 # -------pretrained_models和训练好的模型，丢在下面的位置----------------
-cnhubert_path = "E:/app/tts-ben/pretrained_models/chinese-hubert-base"
-bert_path = "E:/app/tts-ben/pretrained_models/chinese-roberta-wwm-ext-large" 
+cnhubert_path = "./data/pretrained_models/chinese-hubert-base"
+bert_path = "./data/pretrained_models/chinese-roberta-wwm-ext-large" 
 # 从云端下载回来的训练好的内容
-sovits_path = 'E:/app/tts-ben/_models/svc/0128-0359_e12_s144.pth'
-gpt_path = 'E:/app/tts-ben/_models/gpt/0128-0359-e30.ckpt' 
+sovits_path = './data/_models/svc/0128-0359_e12_s144.pth'
+gpt_path = './data/_models/gpt/0128-0359-e30.ckpt' 
 # 推理引用的音频文件地址和文本信息 
-default_refer_path =   r"E:\app\tts-ben\_models\000.wav"   
+default_refer_path =   './data/_models/000.wav'  
 default_refer_text =  "云南凤庆给您发货，一斤装四十九，两斤装九十五，三斤装一百二十九，规格越大价格越划算。" 
 # 语言，我个人把日语韩语乱七八糟的直接删除了，因为我用不上，大家需要的话自己做适配
 default_refer_language = 'zh' 
 # 使用cuda就是用英伟达的gpu，cpu就是用cpu
-device = 'cuda'  # cpu cuda
+device = 'cpu'  # cpu cuda
 is_half = False 
 # -----------------------
 
@@ -67,9 +67,11 @@ else:
 def load_audio(file, sr):
     try: 
         file = clean_path(file)  # 防止小白拷路径头尾带了空格和"和回车
+        print(file)
+        print( '~~~ os.path.exists(file)', os.path.exists(file) )
         if os.path.exists(file) == False:
             raise RuntimeError(
-                "You input a wrong audio path that does not exists, please fix it!"
+                "错误：You input a wrong audio path that does not exists, please fix it!"
             )
         out, _ = (
             ffmpeg.input(file, threads=0)
@@ -82,8 +84,8 @@ def load_audio(file, sr):
     return np.frombuffer(out, np.float32).flatten()
 
 
-def clean_path(path_str):
-    path_str = path_str.replace('/', '\\')
+def clean_path(path_str): 
+    # path_str = path_str.replace('/', '\\') #仅在windows下使用
     return path_str.strip(" ").strip('"').strip("\n").strip('"').strip(" ")
 
 def get_bert_feature(text, word2ph):
