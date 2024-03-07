@@ -1,7 +1,9 @@
 # GPT-SoVITS-Server
 
 > 我在一台realme手机上运行了这个项目！
+> 
 > 如果是ubuntu上进行推理的话，你也可以看[这里](./On-Termux-Ubuntu.md)
+
 
 下面的废话基本没有必要看
 

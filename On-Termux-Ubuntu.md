@@ -172,9 +172,8 @@ pip install uvicorn matplotlib fastapi einops ffmpeg-python
 
 手机Ubuntu环境中的目录情况：
 ```
-root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server# tree ./
-./
-├── 000.wav
+root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server# tree .
+.
 ├── AR
 │   ├── data
 │   │   ├── bucket_sampler.py
@@ -184,11 +183,6 @@ root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server
 │   ├── __init__.py
 │   ├── models
 │   │   ├── __init__.py
-│   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-310.pyc
-│   │   │   ├── t2s_lightning_module.cpython-310.pyc
-│   │   │   ├── t2s_model.cpython-310.pyc
-│   │   │   └── utils.cpython-310.pyc
 │   │   ├── t2s_lightning_module.py
 │   │   ├── t2s_model.py
 │   │   └── utils.py
@@ -199,19 +193,8 @@ root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server
 │   │   ├── lr_schedulers.py
 │   │   ├── optim.py
 │   │   ├── patched_mha_with_cache.py
-│   │   ├── __pycache__
-│   │   │   ├── activation.cpython-310.pyc
-│   │   │   ├── embedding.cpython-310.pyc
-│   │   │   ├── __init__.cpython-310.pyc
-│   │   │   ├── lr_schedulers.cpython-310.pyc
-│   │   │   ├── optim.cpython-310.pyc
-│   │   │   ├── patched_mha_with_cache.cpython-310.pyc
-│   │   │   ├── scaling.cpython-310.pyc
-│   │   │   └── transformer.cpython-310.pyc
 │   │   ├── scaling.py
 │   │   └── transformer.py
-│   ├── __pycache__
-│   │   └── __init__.cpython-310.pyc
 │   ├── text_processing
 │   │   ├── __init__.py
 │   │   ├── phonemizer.py
@@ -239,49 +222,19 @@ root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server
 ├── feature_extractor
 │   ├── cnhubert.py
 │   ├── __init__.py
-│   ├── __pycache__
-│   │   ├── cnhubert.cpython-310.pyc
-│   │   ├── __init__.cpython-310.pyc
-│   │   └── whisper_enc.cpython-310.pyc
 │   └── whisper_enc.py
 ├── ffmpeg
-├── fm-test.py
 ├── _lib
 │   ├── attentions.py
+│   ├── cnhubert.py
 │   ├── commons.py
 │   ├── core_vq.py
 │   ├── mel_processing.py
 │   ├── models.py
 │   ├── modules.py
 │   ├── mrte_model.py
-│   ├── __pycache__
-│   │   ├── attentions.cpython-310.pyc
-│   │   ├── attentions.cpython-39.pyc
-│   │   ├── commons.cpython-310.pyc
-│   │   ├── commons.cpython-39.pyc
-│   │   ├── core_vq.cpython-310.pyc
-│   │   ├── core_vq.cpython-39.pyc
-│   │   ├── mel_processing.cpython-310.pyc
-│   │   ├── mel_processing.cpython-39.pyc
-│   │   ├── models.cpython-310.pyc
-│   │   ├── models.cpython-39.pyc
-│   │   ├── modules.cpython-310.pyc
-│   │   ├── modules.cpython-39.pyc
-│   │   ├── mrte_model.cpython-310.pyc
-│   │   ├── mrte_model.cpython-39.pyc
-│   │   ├── quantize.cpython-310.pyc
-│   │   ├── quantize.cpython-39.pyc
-│   │   ├── transforms.cpython-310.pyc
-│   │   ├── transforms.cpython-39.pyc
-│   │   └── utils.cpython-310.pyc
 │   ├── quantize.py
-│   ├── transforms.py
-│   └── utils.py
-├── LICENSE
-├── __pycache__
-│   ├── server.cpython-310.pyc
-│   └── utils.cpython-310.pyc
-├── README.md
+│   └── transforms.py
 ├── requirements.txt
 ├── server.py
 ├── text
@@ -291,13 +244,9 @@ root@localhost:/data/data/com.termux/files/home/storage/shared/GPT-SoVITS-Server
 │   ├── cmudict.rep
 │   ├── __init__.py
 │   ├── opencpop-strict.txt
-│   ├── __pycache__
-│   │   ├── chinese.cpython-310.pyc
-│   │   ├── cleaner.cpython-310.pyc
-│   │   ├── __init__.cpython-310.pyc
-│   │   ├── symbols.cpython-310.pyc
-│   │   └── tone_sandhi.cpython-310.pyc
 │   ├── symbols.py
 │   └── tone_sandhi.py
 └── utils.py
+
+16 directories, 57 files
 ```
