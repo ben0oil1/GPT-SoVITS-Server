@@ -4,6 +4,7 @@
 > 如果是ubuntu上进行推理的话，你也可以看[这里](./On-Termux-Ubuntu.md)
 
 下面的废话基本没有必要看
+
 ----
 
 [GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS)项目是一个目前为止最优秀的语音克隆项目。
@@ -27,3 +28,13 @@ pretrained_models下载地址：https://huggingface.co/lj1995/GPT-SoVITS/tree/ma
 ### 云服务器 或者 自己的安卓手机
 看文章开始的提示，直接看[这里](./On-Termux-Ubuntu.md)
  
+## 优化方向
+- 代码的结构重新规整
+- 把原来项目中的日语、英语部分重新融合进来
+- 代码规范化实现
+- 对Windows和Linux的兼容性代码做优化
+- 优化代码的运行速度
+- 把Windows部分的运行时完整提取出来，后期可以考虑用GUI进行一下封装
+- 封装一个docker
+
+做好Windows的GUI和云服务器的部署之后，大家可以在云端训练模型，完了用CPU在云端或者本地电脑进行推理，而不需要再去仔细琢磨完整的项目，对新手或者是应用型选手更加友好便捷。
