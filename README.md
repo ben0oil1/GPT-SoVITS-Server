@@ -6,6 +6,7 @@
 
 自身也懒得在很复杂的文件体系中做配置，索性从源项目提取出来了这个项目，核心内容在`server.py`里面，大家可以修改里面的配置，然后使用即可。
 
+> 这个版本删除了日语和英语，纯粹的中文。
 
 ## 系统环境：
 ### 依赖
@@ -20,6 +21,13 @@ pretrained_models下载地址：https://huggingface.co/lj1995/GPT-SoVITS/tree/ma
 ### Linux
 很多云服务器上都是linux，其实只需要搭建所需环境接口： 官方[requirements.txt](https://github.com/RVC-Boss/GPT-SoVITS/blob/main/requirements.txt)这个里面包含模型训练的完整环境，我项目里面提供的requirements理论上只有推理所需的依赖，但是未经测试，需要的自己测试。
 
+### termux
+实验并不成功，termux环境过于特殊，在安装numpy的时候用apt解决了，系统自动安装的py3.11跟numba(librosa源码安装的0.9.2，依赖于numba)不适配。可能曲线救国的方式是termux里面安装完整的Linux环境，或可解决问题。
+```
+uvicorn ffmpeg librosa numpy  soundfile fastapi feature_extractor transformers typing einops tqdm scipy 
+pip install  pypinyin jieba_fast   contextlib3 gruut typeguard pyaml cn2an 
+apt install matplotlib pybind11 pystring python-ensurepip-wheels python-future python-numpy python-lxml python-pandas python-scipy python-static 
+```
 ## 使用：
 如果是windows的话，直接用，我自己测试了，可以正常运行。
 如果自己要进一步魔改，配置到云服务器的话，所有的核心关键都在server.py里面。
