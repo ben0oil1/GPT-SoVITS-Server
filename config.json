@@ -5,5 +5,6 @@
     "gpt_path":"./models/gpt.ckpt",
     "default_refer_path":"./models/referaudio.wav",
     "default_refer_text":"参考文本",
-    "default_refer_language":"zh"
+    "default_refer_language":"zh",
+    "is_half":false
 }

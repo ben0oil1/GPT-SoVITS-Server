@@ -35,6 +35,7 @@ with open("config.json", "r", encoding="utf-8") as f:
     default_refer_path = config["default_refer_path"]
     default_refer_text = config["default_refer_text"]
     default_refer_language = config["default_refer_language"]
+    is_half = config["is_half"]
 # 自动判断环境是否支持CUDA和DirectML
 if(torch.cuda.is_available()):
     print("CUDA可用，将使用CUDA进行推理加速。")
@@ -48,7 +49,6 @@ else:
         device = torch_directml.device(0)
         print("DirectML可用，将使用DirectML进行推理加速。")
         print("设备名称:",torch_directml.device_name(0))
-is_half = False
 # -----------------------
 
 # 如果要增加更多的参数选项，在这里设定
