@@ -1,0 +1,9 @@
+{
+    "cnhubert_path":"./pretrained/chinese-hubert-base",
+    "bert_path":"./pretrained/chinese-roberta-wwm-ext-large",
+    "sovits_path":"./models/sovits.pth",
+    "gpt_path":"./models/gpt.ckpt",
+    "default_refer_path":"./models/referaudio.wav",
+    "default_refer_text":"参考文本",
+    "default_refer_language":"zh"
+}
