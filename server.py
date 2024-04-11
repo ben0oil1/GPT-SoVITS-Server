@@ -11,6 +11,7 @@ import librosa
 import numpy as np
 import soundfile as sf
 import torch
+import torch_directml
 import uvicorn
 from AR.models.t2s_lightning_module import Text2SemanticLightningModule
 from fastapi import FastAPI, HTTPException, Request
@@ -22,21 +23,32 @@ from _lib.models import SynthesizerTrn
 from transformers import AutoModelForMaskedLM, AutoTokenizer 
 from text import cleaned_text_to_sequence
 from text.cleaner import clean_text
+import json
 
-# -------pretrained_models和训练好的模型，丢在下面的位置----------------
-cnhubert_path = "./data/pretrained_models/chinese-hubert-base"
-bert_path = "./data/pretrained_models/chinese-roberta-wwm-ext-large" 
-# 从云端下载回来的训练好的内容
-sovits_path = './data/_models/svc/0128-0359_e12_s144.pth'
-gpt_path = './data/_models/gpt/0128-0359-e30.ckpt' 
-# 推理引用的音频文件地址和文本信息 
-default_refer_path =   './data/_models/000.wav'  
-default_refer_text =  "云南凤庆给您发货，一斤装四十九，两斤装九十五，三斤装一百二十九，规格越大价格越划算。" 
-# 语言，我个人把日语韩语乱七八糟的直接删除了，因为我用不上，大家需要的话自己做适配
-default_refer_language = 'zh' 
-# 使用cuda就是用英伟达的gpu，cpu就是用cpu
-device = 'cpu'  # cpu cuda
-is_half = False 
+# 增加一个读取配置文件的功能
+with open("config.json", "r", encoding="utf-8") as f:
+    config = json.load(f)
+    cnhubert_path = config["cnhubert_path"]
+    bert_path = config["bert_path"]
+    sovits_path = config["sovits_path"]
+    gpt_path = config["gpt_path"]
+    default_refer_path = config["default_refer_path"]
+    default_refer_text = config["default_refer_text"]
+    default_refer_language = config["default_refer_language"]
+    is_half = config["is_half"]
+# 自动判断环境是否支持CUDA和DirectML
+if(torch.cuda.is_available()):
+    print("CUDA可用，将使用CUDA进行推理加速。")
+    print("设备名称:",torch.cuda.get_device_name(0))
+    device = "cuda"
+else:
+    if(torch_directml.is_available()==False):
+        device = "cpu"
+        print("在本机没有发现可以用于加速的显卡，使用CPU进行推理运算。")
+    else:
+        device = torch_directml.device(0)
+        print("DirectML可用，将使用DirectML进行推理加速。")
+        print("设备名称:",torch_directml.device_name(0))
 # -----------------------
 
 # 如果要增加更多的参数选项，在这里设定
